@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        background-color: #3498db;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        color: #fff;
+      }
+
+      .weatherContainer {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        color: #fff;
+      }
+
+      .searchBox {
+        text-align: center;
+        padding: 20px;
+      }
+
+      #cityInput,
+      #searchButton {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 20px;
+      }
+
+      #cityInput {
+        margin-bottom: 10px;
+        border: 1px solid #3498db;
+      }
+
+      #searchButton {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #searchButton:hover {
+        background-color: #2666a3;
+      }
+
+      .result {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .city {
+        font-size: 28px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .temperature {
+        font-size: 48px;
+      }
+
+      .condition {
+        font-size: 24px;
+        color: #b0d4f1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="weatherContainer">
+      <div class="searchBox">
+        <input type="text" id="cityInput" placeholder="Enter City Name" />
+        <button id="searchButton">Search</button>
+      </div>
+      <div class="result">
+        <div class="city"></div>
+        <div class="temperature"></div>
+        <div class="condition"></div>
+      </div>
+    </div>
+
+    <script>
+      getWeatherData = (location) => {
+        const apiKey = "9f583e4ddab0f2a7dc17ac8bd7cc3844"
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            document.querySelector(".city").textContent = data.name
+            document.querySelector(
+              ".temperature"
+            ).textContent = `${data.main.temp}°C`
+            document.querySelector(".condition").textContent =
+              data.weather[0].description
+          })
+      };
+
+      const searchButton = document.getElementById("searchButton")
+      const cityInput = document.getElementById("cityInput")
+
+      searchButton.addEventListener("click", () => {
+        const location = cityInput.value
+        if (location) {
+          getWeatherData(location)
+        }
+      })
+    </script>
+  </body>
+</html>
